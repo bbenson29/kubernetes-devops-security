@@ -28,5 +28,6 @@ pipeline {
           sh 'docker push bbenson29/numeric-app:""$GIT_COMMIT""'
         }
       }
+    }
   }
 }
