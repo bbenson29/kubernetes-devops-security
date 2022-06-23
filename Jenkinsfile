@@ -20,16 +20,16 @@ pipeline {
         }
       }
     }
-    stage('Mutation Tests - PIT') {
-      steps {
-        sh "mvn org.pitest:pitest-maven:mutationCoverage"
-      }
-      post {
-        always {
-          pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
+
+    stages {
+      stage('Sonar - SAST') {
+        steps {
+          sh "mvn sonar:sonar -Dsonar.projectKey=numeric-application -Dsonar.host.url=http://devsecops-vm.ukwest.cloudapp.azure.com:9000 -Dsonar.login=dc336c4da21a3efcff07d92dcbcc3b0f3b2c1041"
+          
         }
       }
-    }
+    
+    
     stage('Docker Build and Push') {
       steps {
         withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
